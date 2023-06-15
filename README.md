@@ -2,6 +2,7 @@
 
 ## TODO
 
+- [ ] Add frontend
 - [ ] Add arxiv API manager
   - [ ] Add reference count
 - [ ] Add PDF maker
