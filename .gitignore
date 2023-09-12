@@ -2,3 +2,5 @@
 .python-version
 __pycache__/*
 memo.ipynb
+*.pdf
+*.png
