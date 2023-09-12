@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Generation</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Generate PDF Slides</h1>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <label>{{ form.keywords.label }}</label>
+            <div>{{ form.keywords }}</div>
+            <label>{{ form.paper_titles.label }}</label>
+            <div>{{ form.paper_titles }}</div>
+            <div>{{ form.submit }}</div>
+        </form>
+    </div>
+</body>
+</html>
