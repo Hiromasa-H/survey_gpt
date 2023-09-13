@@ -3,6 +3,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4,landscape
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.cidfonts import UnicodeCIDFont
+from reportlab.lib.utils import ImageReader
 import math
 import textwrap
 import pickle
@@ -29,7 +30,8 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
 
     # ロゴ用画像のサイズ調整
     logo_area_x, logo_area_y = 100, 100
-    logo = Image.open('test.png')  
+    logo = Image.open('static/slides/logo.png')  
+    logo = logo.convert('RGBA')
     logo_x,logo_y = logo.size
     logo_mag = image_mag(logo_x, logo_y, logo_area_x, logo_area_y)
     logo_r = logo.resize((int(logo_x*logo_mag),int(logo_y*logo_mag)))
@@ -50,7 +52,10 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
     c.drawCentredString(w/2, h/2-title_font_size-20, subtitle_text)  # サブタイトルタイトルの下に表示
     c.setFont(font_name, affiliation_font_size)
     c.drawRightString(w-margin,margin,date_affiliation)  # 所属情報を右下に表示
-    c.drawInlineImage(logo_r,w-logo_r_x-margin,h-logo_r_y-margin)  # ロゴを右上に表示
+
+    logo = ImageReader('static/slides/logo.png')
+    c.drawImage(logo,w-logo_r_x-margin-0,h-logo_r_y-margin-0,100,100,mask='auto')
+    # c.drawInlineImage(logo_r,w-logo_r_x-margin,h-logo_r_y-margin)  # ロゴを右上に表示
     
     # # 本文ページの内容()
     # midashi_list = ['プレゼン資料作りは時間がかかる割に・・・',
@@ -70,23 +75,24 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
     honbun_y_pos = 240  # 本文の表示位置(y)
     im_1_area_x, im_1_area_y = 650, 450  # 画像1表示エリアのサイズ
     im_2_area_x, im_2_area_y = 650, 450  # 画像2表示エリアのサイズ
-
-
-    for midashi, honbun_dict, im_1_file, im_2_file in zip(midashi_list, honbun_list, im_1_file_list, im_2_file_list): 
+    
+    
+    print(len(midashi_list))
+    for midashi, honbun_dict in zip(midashi_list, honbun_list):#, im_1_file, im_2_file, im_1_file_list, im_2_file_list): 
         
         c.showPage()  # 改ページ
-        
+        print('new page')
         # イメージ1のサイズ調整
-        im_1 = Image.open(im_1_file)  # ロゴ用画像の読み出し
-        im_1_x,im_1_y = im_1.size
-        im_1_mag = image_mag(im_1_x, im_1_y, im_1_area_x, im_1_area_y)
-        im_1_r = im_1.resize((int(im_1_x*im_1_mag),int(im_1_y*im_1_mag)))
+        # im_1 = Image.open(im_1_file)  # ロゴ用画像の読み出し
+        # im_1_x,im_1_y = im_1.size
+        # im_1_mag = image_mag(im_1_x, im_1_y, im_1_area_x, im_1_area_y)
+        # im_1_r = im_1.resize((int(im_1_x*im_1_mag),int(im_1_y*im_1_mag)))
 
-        # イメージ2のサイズ調整
-        im_2 = Image.open(im_2_file)  # ロゴ用画像の読み出し
-        im_2_x,im_2_y = im_2.size
-        im_2_mag = image_mag(im_2_x, im_2_y, im_2_area_x, im_2_area_y)
-        im_2_r = im_2.resize((int(im_2_x*im_2_mag),int(im_2_y*im_2_mag)))
+        # # イメージ2のサイズ調整
+        # im_2 = Image.open(im_2_file)  # ロゴ用画像の読み出し
+        # im_2_x,im_2_y = im_2.size
+        # im_2_mag = image_mag(im_2_x, im_2_y, im_2_area_x, im_2_area_y)
+        # im_2_r = im_2.resize((int(im_2_x*im_2_mag),int(im_2_y*im_2_mag)))
 
         honbun_list = [f"課題:{honbun_dict['problem']}",
                        f"手法:{honbun_dict['method']}",
@@ -94,7 +100,10 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
         
         text_area_w = w-2*margin 
 
-        c.drawInlineImage(logo_r,w-logo_r_x-margin,h-logo_r_y-margin)
+        # c.drawInlineImage(logo_r,w-logo_r_x-margin,h-logo_r_y-margin)
+        
+        # c.drawImage(logo,w-logo_r_x-margin,h-logo_r_y-margin,120,120,mask='auto')
+        c.drawImage(logo,w-logo_r_x-margin,h-logo_r_y-margin,mask='auto')
 
         # 見出しのテキスト折り返し
         midashi_len = len(midashi)
@@ -110,6 +119,7 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
             count_row += 1
 
         count_row = 0
+        gyokan2 = 0
         for honbun in honbun_list:
             # 本文のテキスト折り返し
             honbun_len = len(honbun)
@@ -119,10 +129,11 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
 
             c.setFont(font_name, text_font_size)
             
-            for i in honbun_rows_list:
-                c.drawString(margin, h-honbun_y_pos-count_row*(text_font_size+gyokan), i)
+            for idx, honbun_text in enumerate(honbun_rows_list):
+                if idx == 0:
+                    gyokan2 += 15
+                c.drawString(margin, h-honbun_y_pos-count_row*(text_font_size+gyokan)-gyokan2, honbun_text)
                 count_row += 1
-                print(honbun)
 
         # 図の表示
         # c.drawInlineImage(im_1_r,margin,margin)
