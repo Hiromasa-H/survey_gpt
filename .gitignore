@@ -4,3 +4,4 @@ __pycache__/*
 memo.ipynb
 *.pdf
 *.png
+*.pickle
