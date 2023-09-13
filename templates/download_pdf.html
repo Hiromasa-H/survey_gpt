@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download PDF</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dpdf.css') }}">
 </head>
 <body>
     <h1>Download PDF</h1>
@@ -11,5 +12,6 @@
     <a href="/download_pdf" download="output.pdf">
         <button>Download PDF</button>
     </a>
+    <embed src="/static/slides/presentation.pdf" type="application/pdf" width="100%" height="500px">
 </body>
 </html>
