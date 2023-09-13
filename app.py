@@ -88,7 +88,7 @@ def static_file(filename):
     return send_from_directory('static/slides', filename)
 
 
-@app.route('/download_pdf')
+@app.route('/static/slides/download_pdf')
 def download_pdf():
     pdf_file = 'presentation.pdf'  # Replace with the path to your PDF file
     return send_file(pdf_file, as_attachment=True)
@@ -117,7 +117,7 @@ def get_papers_from_keyword(query, max_results,from_year):
         sort_order=arxiv.SortOrder.Descending,
     )
     for result in search.results():
-        print(result, result.published.year, result.title)
+        print(result.title,result.published.year)
         if result.published.year >= from_year:
             result_list.append(result)
     return result_list
