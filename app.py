@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, send_file, send_from_directory
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 import os
@@ -7,6 +7,7 @@ import openai
 from dotenv import load_dotenv
 from create_pdf import make_pdf
 import datetime
+import pickle 
 
 # MagicProp: Diffusion-based Video Editing via Motion-aware Appearance Propagation
 
@@ -55,6 +56,10 @@ def input_page():
             return_list = generate_summaries(result_list)
             # print("info_dict", return_list)
 
+        # save as pickle
+        with open('info_dict.pickle', 'wb') as f:
+            pickle.dump(return_list, f)
+
         today = datetime.date.today()
         today_str = today.strftime('%Y%m%d')
 
@@ -72,6 +77,15 @@ def input_page():
         
 
     return render_template('input_page.html', form=form)
+
+@app.route('/download_pdf_page')
+def download_pdf_page():
+    return render_template('download_pdf.html')
+
+@app.route('/static/slides/<path:filename>')
+def static_file(filename):
+    return send_from_directory('static/slides', filename)
+
 
 @app.route('/download_pdf')
 def download_pdf():
