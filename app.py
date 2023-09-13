@@ -41,7 +41,7 @@ def input_page():
         # print(keywords, paper_titles)
         if keywords:
             print("keywords", keywords)
-            result_list = get_papers_from_keyword(keywords, 10, 2019)
+            result_list = get_papers_from_keyword(keywords, 5, 2019)
             print("result_list", result_list)
         elif paper_titles:
             print("paper_titles", paper_titles)
@@ -61,11 +61,12 @@ def input_page():
             pickle.dump(return_list, f)
 
         today = datetime.date.today()
-        today_str = today.strftime('%Y%m%d')
+        today_str = today.strftime('%Y/%m/%d')
 
         title_list = [ item['title'] for item in return_list ]
-        body_list = [ "\n".join(item['gpt_summaries'].values()) for item in return_list ]
-
+        # body_list = [ "\n".join(item['gpt_summaries'].values()) for item in return_list ]
+        body_list = [ item['gpt_summaries'] for item in return_list ]
+        print(len(title_list), len(body_list))
         make_pdf(title_text='動画編集サーベイ',
                  subtitle_text='サーベイ実験',
                  date_affiliation=today_str,
@@ -113,13 +114,12 @@ def get_papers_from_keyword(query, max_results,from_year):
         query=query,
         max_results=max_results,
         sort_by=arxiv.SortCriterion.SubmittedDate,
-        sort_order=arxiv.SortOrder.
-        Descending,
+        sort_order=arxiv.SortOrder.Descending,
     )
     for result in search.results():
-            print(result, result.published.year, result.title)
-            if result.published.year >= from_year:
-                result_list.append(result)
+        print(result, result.published.year, result.title)
+        if result.published.year >= from_year:
+            result_list.append(result)
     return result_list
 
 def generate_summaries(result_list):
@@ -150,7 +150,7 @@ def generate_summaries(result_list):
         # print("#### GPT", summary)
         gpt_dict = {}    
         for b in summary.split('\n'):
-            print("****", b)
+            # print("****", b)
             if b.startswith("課題"):
                 gpt_dict['problem'] = b[3:].lstrip()
             if b.startswith("手法"):

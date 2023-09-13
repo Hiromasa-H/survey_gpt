@@ -88,13 +88,9 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
         im_2_mag = image_mag(im_2_x, im_2_y, im_2_area_x, im_2_area_y)
         im_2_r = im_2.resize((int(im_2_x*im_2_mag),int(im_2_y*im_2_mag)))
 
-        honbun = f"""
-        課題:{honbun_dict['problem']}
-
-        手法:{honbun_dict['method']}
-
-        結果:{honbun_dict['result']}
-        """
+        honbun_list = [f"課題:{honbun_dict['problem']}",
+                       f"手法:{honbun_dict['method']}",
+                       f"結果:{honbun_dict['result']}"]
         
         text_area_w = w-2*margin 
 
@@ -113,18 +109,20 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
             c.drawString(margin, h-90-count_row*(midashi_font_size+gyokan), i)
             count_row += 1
 
-        # 本文のテキスト折り返し
-        honbun_len = len(honbun)
-        text_chr_w = text_area_w // text_font_size  # 本文の1行の文字数
-        honbun_rows = math.ceil(honbun_len/text_chr_w)  # 本文の行数
-        honbun_rows_list = textwrap.wrap(honbun, text_chr_w) 
-
-        c.setFont(font_name, text_font_size)
-        
         count_row = 0
-        for i in honbun_rows_list:
-            c.drawString(margin, h-honbun_y_pos-count_row*(text_font_size+gyokan), i)
-            count_row += 1
+        for honbun in honbun_list:
+            # 本文のテキスト折り返し
+            honbun_len = len(honbun)
+            text_chr_w = text_area_w // text_font_size  # 本文の1行の文字数
+            honbun_rows = math.ceil(honbun_len/text_chr_w)  # 本文の行数
+            honbun_rows_list = textwrap.wrap(honbun, text_chr_w) 
+
+            c.setFont(font_name, text_font_size)
+            
+            for i in honbun_rows_list:
+                c.drawString(margin, h-honbun_y_pos-count_row*(text_font_size+gyokan), i)
+                count_row += 1
+                print(honbun)
 
         # 図の表示
         # c.drawInlineImage(im_1_r,margin,margin)
