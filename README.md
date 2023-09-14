@@ -1,5 +1,15 @@
 # Survey GPT
 
+
+## Setup
+1. clone this repository
+2. install required packages
+3. run the app
+4. navigate to 
+5. enter either a keyword or a list of keywords separated by commas
+6. wait for the PDF slides to be generated
+7. once the results are generated, click on download to download the PDF file
+
 ## TODO
 
 - [ ] Add frontend
