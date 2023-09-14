@@ -78,8 +78,9 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,
     im_2_area_x, im_2_area_y = 650, 450  # 画像2表示エリアのサイズ
     
     
-    print(len(midashi_list))
-    for midashi,honbun_dict,url,year,author in zip(midashi_list, honbun_list,url_list,year_list,author_list):#, im_1_file, im_2_file, im_1_file_list, im_2_file_list): 
+    # print(len(midashi_list))
+    
+    for page_number,(midashi,honbun_dict,url,year,author) in enumerate(zip(midashi_list, honbun_list,url_list,year_list,author_list)):#, im_1_file, im_2_file, im_1_file_list, im_2_file_list): 
         
         c.showPage()  # 改ページ
         print('new page')
@@ -150,6 +151,8 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,
         # 図の表示
         # c.drawInlineImage(im_1_r,margin,margin)
         # c.drawInlineImage(im_2_r,w/2+margin,margin)
+        c.drawString(w-50, linky, str(page_number+10))
+        
 
     c.save()  # ファイル保存
 
