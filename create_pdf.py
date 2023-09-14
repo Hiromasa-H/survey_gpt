@@ -72,7 +72,7 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
     midashi_font_size = 60  # 見出しの文字サイズ
     text_font_size = 30  # 本文の文字サイズ
     gyokan = 15  # 本文の行間隔\
-    honbun_y_pos = 240  # 本文の表示位置(y)
+    honbun_y_pos = 270  # 本文の表示位置(y)
     im_1_area_x, im_1_area_y = 650, 450  # 画像1表示エリアのサイズ
     im_2_area_x, im_2_area_y = 650, 450  # 画像2表示エリアのサイズ
     
