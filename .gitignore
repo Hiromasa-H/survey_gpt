@@ -5,3 +5,5 @@ memo.ipynb
 *.pdf
 *.png
 *.pickle
+.DS_Store
+static/.DS_Store
