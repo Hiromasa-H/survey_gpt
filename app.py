@@ -71,8 +71,8 @@ def input_page():
         authors = [ item['authors'] for item in return_list ]
 
         print(len(title_list), len(body_list))
-        make_pdf(title_text='論文サーベイ',
-                 subtitle_text='自動生成',
+        make_pdf(title_text=keywords or '論文サーベイ',
+                 subtitle_text='サーベイ',
                  date_affiliation=today_str,
                  midashi_list=title_list,
                  honbun_list=body_list,
