@@ -27,8 +27,8 @@ app.secret_key = 'your_secret_key'
 
 # Create a Flask-WTF form for user input
 class PdfGenerationForm(FlaskForm):
-    keywords = StringField('Keywords')
-    paper_titles = TextAreaField('Paper Titles')
+    keywords = StringField('Keywords', render_kw={"placeholder":'Video Prediction, Music Generation, Mixture of Experts, etc...'})
+    paper_titles = TextAreaField('Paper Titles (comma sperated)', render_kw={"placeholder":' Distilling the Knowledge in a Neural Network, \n Hierarchical Text-Conditional Image Generation with CLIP Latents,'})
     submit = SubmitField('Generate PDF')
 
 @app.route('/', methods=['GET', 'POST'])
