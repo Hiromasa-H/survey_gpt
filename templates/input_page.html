@@ -17,5 +17,17 @@
             <div>{{ form.submit }}</div>
         </form>
     </div>
+    <div id="spinner" class="spinner" style="display: none;"></div>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const spinner = document.getElementById('spinner');
+
+        form.addEventListener('submit', function() {
+            spinner.style.display = 'block'; // Show the spinner
+        });
+    });
+</script>
+
