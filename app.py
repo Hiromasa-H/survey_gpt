@@ -67,8 +67,8 @@ def input_page():
         # body_list = [ "\n".join(item['gpt_summaries'].values()) for item in return_list ]
         body_list = [ item['gpt_summaries'] for item in return_list ]
         print(len(title_list), len(body_list))
-        make_pdf(title_text='動画編集サーベイ',
-                 subtitle_text='サーベイ実験',
+        make_pdf(title_text='論文サーベイ',
+                 subtitle_text='自動生成',
                  date_affiliation=today_str,
                  midashi_list=title_list,
                  honbun_list=body_list)
@@ -98,7 +98,7 @@ def get_papers_from_list(paper_title_list):
     result_list = []
     for paper_title in paper_title_list:
         search = arxiv.Search(
-            query=paper_title,
+            query=f"all:%22 {paper_title} %22",
             max_results=1
         )
         for result in search.results():
@@ -110,6 +110,7 @@ def get_papers_from_list(paper_title_list):
 
 def get_papers_from_keyword(query, max_results,from_year):
     result_list = []
+    query = f'all:%22 {query} %22'
     search = arxiv.Search(
         query=query,
         max_results=max_results,
