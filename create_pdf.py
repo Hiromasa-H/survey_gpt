@@ -4,12 +4,13 @@ from reportlab.lib.pagesizes import A4,landscape
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 from reportlab.lib.utils import ImageReader
+from reportlab.platypus import Paragraph
 import math
 import textwrap
 import pickle
 import datetime
 
-def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list):#,im_1_file_list,im_2_file_list):
+def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,url_list,year_list,author_list):#,im_1_file_list,im_2_file_list):
     # 画像変形関数
     def image_mag(im_x_f, im_y_f, canvas_x, canvas_y):
         canvas_ratio = canvas_y / canvas_x  
@@ -78,7 +79,7 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
     
     
     print(len(midashi_list))
-    for midashi, honbun_dict in zip(midashi_list, honbun_list):#, im_1_file, im_2_file, im_1_file_list, im_2_file_list): 
+    for midashi,honbun_dict,url,year,author in zip(midashi_list, honbun_list,url_list,year_list,author_list):#, im_1_file, im_2_file, im_1_file_list, im_2_file_list): 
         
         c.showPage()  # 改ページ
         print('new page')
@@ -106,6 +107,7 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
         c.drawImage(logo,w-logo_r_x-margin,h-logo_r_y-margin,mask='auto')
 
         # 見出しのテキスト折り返し
+        midashi = f'{midashi} ({year})'
         midashi_len = len(midashi)
         midashi_chr_w = text_area_w // (midashi_font_size/2)  # 見出しの1行の文字数
         midashi_rows = math.ceil(midashi_len/midashi_chr_w)  # 見出しの行数
@@ -135,6 +137,16 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list)
                 c.drawString(margin, h-honbun_y_pos-count_row*(text_font_size+gyokan)-gyokan2, honbun_text)
                 count_row += 1
 
+        # draw url
+        link_paragraph = Paragraph(url)
+        link_width = link_paragraph.wrap(0, 0)[0]
+        link_height = link_paragraph.wrap(0, 0)[1]
+        # url_font_size = 15
+        linkx = 30
+        linky = 15
+        # c.linkURL(url, (linkx,linky,linkx+link_width,linky+link_height), relative=1)#, borderColor=None, borderWidth=None, fit=1)
+        c.drawString(margin, linky, url)
+
         # 図の表示
         # c.drawInlineImage(im_1_r,margin,margin)
         # c.drawInlineImage(im_2_r,w/2+margin,margin)
@@ -151,9 +163,18 @@ if __name__ == '__main__':
     title_list = [ item['title'] for item in return_list ]
     # body_list = [ "\n".join(item['gpt_summaries'].values()) for item in return_list ]
     body_list = [ item['gpt_summaries'] for item in return_list ]
+    urls = [ item['pdf_url'] for item in return_list ]
+    years = [ item['published'].year for item in return_list ]
+    authors = [ item['authors'] for item in return_list ]
 
-    make_pdf(title_text='動画編集サーベイ',
-                subtitle_text='サーベイ実験',
+
+
+    make_pdf(title_text='pdf生成テスト',
+                subtitle_text='試験実行',
                 date_affiliation=today_str,
                 midashi_list=title_list,
-                honbun_list=body_list)
+                honbun_list=body_list,
+                url_list=urls,
+                year_list=years,
+                author_list=authors
+                )

@@ -66,12 +66,19 @@ def input_page():
         title_list = [ item['title'] for item in return_list ]
         # body_list = [ "\n".join(item['gpt_summaries'].values()) for item in return_list ]
         body_list = [ item['gpt_summaries'] for item in return_list ]
+        urls = [ item['pdf_url'] for item in return_list ]
+        years = [ item['published'].year for item in return_list ]
+        authors = [ item['authors'] for item in return_list ]
+
         print(len(title_list), len(body_list))
         make_pdf(title_text='論文サーベイ',
                  subtitle_text='自動生成',
                  date_affiliation=today_str,
                  midashi_list=title_list,
-                 honbun_list=body_list)
+                 honbun_list=body_list,
+                 url_list=urls,
+                 year_list=years,
+                 author_list=authors,)
         
         return render_template('download_pdf.html', form=form)
         
