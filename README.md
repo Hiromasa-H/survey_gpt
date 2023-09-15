@@ -1,20 +1,24 @@
 # Survey GPT
 
+Generate simple survey slides from a list of keywords or a list of paper titles:
+![](img3.png)
 
 ## Setup
-1. clone this repository
-2. install required packages
-3. navigate to __
-4. add necessary dirs
-5. add OpenAI API Key
+1. clone this repository: `git clone https://github.com/Hiromasa-H/survey_gpt.git`
+2. navigate to survey_gpt: `cd survey_gpt`
+3. install required packages: `pip install -r requirements.txt`
+4. add env file: `touch .env`
+5. add OpenAI API Key: `echo OPENAI_API_KEY ="API KEY HERE" >> .env`
 
 ## Usage
-1. run the app
-2. go to --
-3. enter either a keyword or a list of keywords separated by commas
-4. wait for the PDF slides to be generated
-5. once the results are generated, click on download to download the PDF file
+1. run the app: `python app.py`
+2. go to localhost on your browser: `http://127.0.0.1:5000` (note that the port may be different on your machine)
+3. enter either a keyword or a list of keywords separated by commas, and click "generate PDF"
+![](img1.png)
+1. wait for the PDF slides to be generated
+2. once the results are generated, click on download to download the PDF file
   - alternatively, navigate to -- and access the pdf from there. Note that this pdf will be overwritten the next time you generate a pdf.
+  ![](img2.png)
 
 
 
