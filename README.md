@@ -31,3 +31,5 @@ Generate simple survey slides from a list of keywords or a list of paper titles:
 - [ ] Add Markdown Maker
 - [ ] Plan integration with connected papers or something similar
 - [ ] Add a way to summarize the survey itself 
+- [ ] Add Language choice
+- [ ] Add a way to choose the number of papers to include
