@@ -1,6 +1,9 @@
 # Survey GPT
 
+[日本語 README.md](README_JA.md)
+
 Generate simple survey slides from a list of keywords or a list of paper titles:
+
 ![](img3.png)
 
 ## Setup
