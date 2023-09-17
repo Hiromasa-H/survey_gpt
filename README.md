@@ -1,6 +1,6 @@
 # Survey GPT
 
-[日本語 README.md](README_JA.md)
+[日本語版 README.md (chatGPT翻訳)](README_JA.md)
 
 Generate simple survey slides from a list of keywords or a list of paper titles:
 
@@ -12,6 +12,7 @@ Generate simple survey slides from a list of keywords or a list of paper titles:
 3. install required packages: `pip install -r requirements.txt`
 4. add env file: `touch .env`
 5. add OpenAI API Key: `echo OPENAI_API_KEY ="API KEY HERE" >> .env`
+   - How to get an API key: [instructions](https://www.howtogeek.com/885918/how-to-get-an-openai-api-key/)
 
 ## Usage
 1. run the app: `python app.py`
@@ -20,7 +21,7 @@ Generate simple survey slides from a list of keywords or a list of paper titles:
 ![](img1.png)
 1. wait for the PDF slides to be generated
 2. once the results are generated, click on download to download the PDF file
-  - alternatively, navigate to -- and access the pdf from there. Note that this pdf will be overwritten the next time you generate a pdf.
+  - alternatively, navigate to `survery_gpt/static/slides/presentation.pdf` and access the pdf from there. Note that this pdf will be overwritten the next time you generate a pdf.
   ![](img2.png)
 
 
