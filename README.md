@@ -32,7 +32,6 @@ Generate simple survey slides from a list of keywords or a list of paper titles:
 - [x] Add arxiv API manager
   - [ ] Add reference count
 - [x] Add PDF maker
-- [ ] Add Markdown Maker
 - [ ] Plan integration with connected papers or something similar
 - [ ] Add a way to summarize the survey itself 
 - [ ] Add Language choice
