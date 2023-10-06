@@ -26,59 +26,49 @@ h1 {
     margin-bottom: 20px;
 }
 
-
 form {
     background-color: #fff;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    text-align: center; /* Center-align form content */
 }
 
 form label {
     font-weight: bold;
     display: block;
-    margin:1rem;
+    margin: 1rem 0;
     text-align: left; /* Align labels to the left */
 }
 
-form input[type="text"],
-form textarea {
+/* Add some spacing for the new form elements */
+form input[type="radio"],
+form input[type="number"],
+form input[type="text"] {
     width: 90%;
     padding: 10px;
-    margin: 0 auto; /* Center-align input fields */
+    margin: 0 auto;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 16px;
     text-align: left; /* Align text within input fields to the left */
     resize: vertical;
-}
-/* 
-form {
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    margin-bottom: 1rem; /* Adjust spacing between elements */
 }
 
-form label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-form input[type="text"],
 form textarea {
-    width: 100%;
+    width: 90%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin: 0 auto;
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 16px;
-} */
+    text-align: left;
+    resize: vertical;
+    margin-bottom: 1rem; /* Adjust spacing between elements */
+}
 
 #submit {
-    margin:2rem;
+    margin: 2rem 0; /* Adjust margin for submit button */
 }
 
 form button {
@@ -90,33 +80,17 @@ form button {
     font-size: 18px;
     border-radius: 3px;
     transition: background-color 0.3s, color 0.3s; /* Add transition effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for elevation */
 
-    /* Add box shadow for a subtle elevation effect */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem; /* Adjust spacing between button and other elements */
 }
 
 form button:hover {
     background-color: #0056b3;
-    color: #fff; /* Change text color on hover */
-}
-
-/* form button {
-    background-color: #007bff;
     color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 3px;
-    transition: background-color 0.3s;
 }
 
-form button:hover {
-    background-color: #0056b3;
-}
- */
-
- .spinner {
+.spinner {
     border: 4px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     border-top: 4px solid #3498db;
