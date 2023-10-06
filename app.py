@@ -1,6 +1,6 @@
 from flask import Flask, render_template, send_file, send_from_directory
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField
+from wtforms import StringField, TextAreaField, SubmitField, RadioField, IntegerField, validators
 import os
 import arxiv
 import openai
@@ -28,8 +28,14 @@ app.secret_key = 'your_secret_key'
 # Create a Flask-WTF form for user input
 class PdfGenerationForm(FlaskForm):
     keywords = StringField('Keywords', render_kw={"placeholder":'Video Prediction, Music Generation, Mixture of Experts, etc...'})
-    paper_titles = TextAreaField('Paper Titles (comma sperated)', render_kw={"placeholder":' Distilling the Knowledge in a Neural Network, \n Hierarchical Text-Conditional Image Generation with CLIP Latents,'})
+    paper_titles = TextAreaField('Paper Titles (comma separated)', render_kw={"placeholder":' Distilling the Knowledge in a Neural Network, \n Hierarchical Text-Conditional Image Generation with CLIP Latents,'})
     submit = SubmitField('Generate PDF')
+    
+    # Add new fields for language, total pages, and title
+    language = RadioField('Language', choices=[('english', 'English'), ('japanese', 'Japanese')])
+    total_pages = IntegerField('Total Number of Pages', validators=[validators.NumberRange(min=1)])
+    title = StringField('Slide Title')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def input_page():
@@ -38,6 +44,10 @@ def input_page():
         # Handle form submission here
         keywords = form.keywords.data
         paper_titles = form.paper_titles.data
+        print(form.language.data)
+        print(form.total_pages.data)
+        print(form.title.data)
+        raise ValueError
         # print(keywords, paper_titles)
         if keywords:
             print("keywords", keywords)
