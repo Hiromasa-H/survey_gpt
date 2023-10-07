@@ -15,12 +15,20 @@ import pickle
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-prompt = """与えられた論文の要点をまとめ、以下の項目で日本語で出力せよ。それぞれの項目は最大でも180文字以内に要約せよ。
+prompt_ja = """与えられた論文の要点をまとめ、以下の項目で日本語で出力せよ。それぞれの項目は最大でも180文字以内に要約せよ。
 ```
 課題:この論文が解決する課題
 手法:この論文が提案する手法
 結果:提案手法によって得られた結果
 ```"""
+
+prompt_en = """Provide the following for the given academic paper. 
+```
+Problem:What problem does this paper solve?
+Method:What method does this paper propose?
+Result:What result was obtained by the proposed method?
+```"""
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -44,14 +52,17 @@ def input_page():
         # Handle form submission here
         keywords = form.keywords.data
         paper_titles = form.paper_titles.data
+        slide_numbers = form.total_pages.data
+        slide_language = form.language.data
+        slide_title = form.title.data
         print(form.language.data)
         print(form.total_pages.data)
         print(form.title.data)
-        raise ValueError
+        # raise ValueError
         # print(keywords, paper_titles)
         if keywords:
             print("keywords", keywords)
-            result_list = get_papers_from_keyword(keywords, 5, 2019)
+            result_list = get_papers_from_keyword(keywords, slide_numbers, 2019)
             print("result_list", result_list)
         elif paper_titles:
             print("paper_titles", paper_titles)
@@ -63,7 +74,7 @@ def input_page():
             print("error")
 
         if len(result_list) > 0:
-            return_list = generate_summaries(result_list)
+            return_list = generate_summaries(result_list, slide_language)
             # print("info_dict", return_list)
 
         # save as pickle
@@ -81,14 +92,15 @@ def input_page():
         authors = [ item['authors'] for item in return_list ]
 
         print(len(title_list), len(body_list))
-        make_pdf(title_text=keywords or '論文サーベイ',
-                 subtitle_text='サーベイ',
+        make_pdf(title_text=slide_title or keywords or '論文サーベイ',
+                 subtitle_text='サーベイ' if slide_title=='japanese' else 'Survey',
                  date_affiliation=today_str,
                  midashi_list=title_list,
                  honbun_list=body_list,
                  url_list=urls,
                  year_list=years,
-                 author_list=authors,)
+                 author_list=authors,
+                 language=slide_language)
         
         return render_template('download_pdf.html', form=form)
         
@@ -140,7 +152,7 @@ def get_papers_from_keyword(query, max_results,from_year):
             result_list.append(result)
     return result_list
 
-def generate_summaries(result_list):
+def generate_summaries(result_list,language):
     return_list = []
     
     for result in result_list:
@@ -154,28 +166,50 @@ def generate_summaries(result_list):
         pdf_info["authors"] = result.authors
         text = f"title: {result.title}\nbody: {result.summary}"
 
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            # model='gpt-4',
-            messages=[
-                {'role': 'system', 'content': prompt},
-                {'role': 'user', 'content': text}
-            ],
-            temperature=0.25,
-        )
-
-        summary = response['choices'][0]['message']['content']
-        # print("#### GPT", summary)
-        gpt_dict = {}    
-        for b in summary.split('\n'):
-            # print("****", b)
-            if b.startswith("課題"):
-                gpt_dict['problem'] = b[3:].lstrip()
-            if b.startswith("手法"):
-                gpt_dict['method'] = b[3:].lstrip()
-            if b.startswith("結果"):
-                gpt_dict['result'] = b[3:].lstrip()
-        # print("Dict by ChatGPT", dict)
+        if language == 'japanese':
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                # model='gpt-4',
+                messages=[
+                    {'role': 'system', 'content': prompt_ja},
+                    {'role': 'user', 'content': text}
+                ],
+                temperature=0.25,
+            )
+            summary = response['choices'][0]['message']['content']
+            # print("#### GPT", summary)
+            gpt_dict = {}    
+            for b in summary.split('\n'):
+                # print("****", b)
+                if b.startswith("課題"):
+                    gpt_dict['problem'] = b[3:].lstrip()
+                if b.startswith("手法"):
+                    gpt_dict['method'] = b[3:].lstrip()
+                if b.startswith("結果"):
+                    gpt_dict['result'] = b[3:].lstrip()
+            # print("Dict by ChatGPT", dict)
+        elif language == 'english':
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                # model='gpt-4',
+                messages=[
+                    {'role': 'system', 'content': prompt_en},
+                    {'role': 'user', 'content': text}
+                ],
+                temperature=0.25,
+            )
+            summary = response['choices'][0]['message']['content']
+            # print("#### GPT", summary)
+            gpt_dict = {}    
+            for b in summary.split('\n'):
+                # print("****", b)
+                if b.startswith("Problem"):
+                    gpt_dict['problem'] = b[8:].lstrip()
+                if b.startswith("Method"):
+                    gpt_dict['method'] = b[7:].lstrip()
+                if b.startswith("Result"):
+                    gpt_dict['result'] = b[7:].lstrip()
+            # print("Dict by ChatGPT", dict)        
 
         pdf_info["gpt_summaries"] = gpt_dict
         return_list.append(pdf_info)

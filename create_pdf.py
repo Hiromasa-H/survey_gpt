@@ -10,7 +10,7 @@ import textwrap
 import pickle
 import datetime
 
-def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,url_list,year_list,author_list):#,im_1_file_list,im_2_file_list):
+def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,url_list,year_list,author_list,language):#,im_1_file_list,im_2_file_list):
     # 画像変形関数
     def image_mag(im_x_f, im_y_f, canvas_x, canvas_y):
         canvas_ratio = canvas_y / canvas_x  
@@ -95,11 +95,14 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,
         # im_2_x,im_2_y = im_2.size
         # im_2_mag = image_mag(im_2_x, im_2_y, im_2_area_x, im_2_area_y)
         # im_2_r = im_2.resize((int(im_2_x*im_2_mag),int(im_2_y*im_2_mag)))
-
-        honbun_list = [f"課題:{honbun_dict['problem']}",
-                       f"手法:{honbun_dict['method']}",
-                       f"結果:{honbun_dict['result']}"]
-        
+        if language == 'japanese':
+            honbun_list = [f"課題:{honbun_dict['problem']}",
+                        f"手法:{honbun_dict['method']}",
+                        f"結果:{honbun_dict['result']}"]
+        elif language == 'english':
+            honbun_list = [f"Problem:{honbun_dict['problem']}",
+                        f"Method:{honbun_dict['method']}",
+                        f"Result:{honbun_dict['result']}"]
         text_area_w = w-2*margin 
 
         # c.drawInlineImage(logo_r,w-logo_r_x-margin,h-logo_r_y-margin)
@@ -110,7 +113,10 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,
         # 見出しのテキスト折り返し
         midashi = f'{midashi} ({year})'
         midashi_len = len(midashi)
-        midashi_chr_w = text_area_w // (midashi_font_size/2)  # 見出しの1行の文字数
+        if language == 'japanese':
+            midashi_chr_w = text_area_w // (midashi_font_size/2)  # 見出しの1行の文字数
+        elif language == 'english':
+            midashi_chr_w = text_area_w // (midashi_font_size/3)
         midashi_rows = math.ceil(midashi_len/midashi_chr_w)  # 見出しの行数
         midashi_rows_list = textwrap.wrap(midashi, midashi_chr_w)  # 見出しの折り返し
 
@@ -126,7 +132,10 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,
         for honbun in honbun_list:
             # 本文のテキスト折り返し
             honbun_len = len(honbun)
-            text_chr_w = text_area_w // text_font_size  # 本文の1行の文字数
+            if language == 'japanese':
+                text_chr_w = text_area_w // text_font_size  # 本文の1行の文字数
+            elif language == 'english':
+                text_chr_w = text_area_w // (text_font_size/2)
             honbun_rows = math.ceil(honbun_len/text_chr_w)  # 本文の行数
             honbun_rows_list = textwrap.wrap(honbun, text_chr_w) 
 
