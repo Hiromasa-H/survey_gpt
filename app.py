@@ -31,6 +31,7 @@ Result:What result was obtained by the proposed method?
 
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 # Create a Flask-WTF form for user input
 class PdfGenerationForm(FlaskForm):
@@ -213,6 +214,7 @@ def generate_summaries(result_list,language):
         pdf_info["gpt_summaries"] = gpt_dict
         return_list.append(pdf_info)
     return return_list
+
 
 if __name__ == '__main__':
     app.run(debug=True)
