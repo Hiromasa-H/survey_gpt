@@ -18,7 +18,7 @@ Generate simple survey slides from a list of keywords or a list of paper titles:
 1. run the app: `python app.py`
 2. go to localhost on your browser: `http://127.0.0.1:5000` (note that the port may be different on your machine)
 3. enter either a keyword or a list of keywords separated by commas, and click "generate PDF"
-![](img1.png)
+![](img5.png)
 1. wait for the PDF slides to be generated
 2. once the results are generated, click on download to download the PDF file
   - alternatively, navigate to `survery_gpt/static/slides/presentation.pdf` and access the pdf from there. Note that this pdf will be overwritten the next time you generate a pdf.
