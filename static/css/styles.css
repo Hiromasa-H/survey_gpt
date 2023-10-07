@@ -41,7 +41,7 @@ form label {
 }
 
 /* Add some spacing for the new form elements */
-form input[type="radio"],
+/* form input[type="radio"], */
 form input[type="number"],
 form input[type="text"] {
     width: 90%;
@@ -53,6 +53,17 @@ form input[type="text"] {
     text-align: left; /* Align text within input fields to the left */
     resize: vertical;
     margin-bottom: 1rem; /* Adjust spacing between elements */
+}
+
+/* Style the radio buttons to be inline within .option */
+.options {
+    display: flex; /* Use flexbox to align items horizontally */
+}
+
+.option {
+    display: flex; /* Use flexbox to align items horizontally */
+    align-items: center; /* Center align items vertically */
+    margin-right: 20px; /* Add spacing between .option items */
 }
 
 form textarea {

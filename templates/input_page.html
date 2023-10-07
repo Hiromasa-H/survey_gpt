@@ -10,21 +10,7 @@
         <h1>Generate PDF Slides</h1>
         <form method="post">
             {{ form.hidden_tag() }}
-            
-            <!-- Language Selection -->
-            <label for="language">Language:</label>
-            <input type="radio" id="english" name="language" value="english">
-            <label for="english">English</label>
-            <input type="radio" id="japanese" name="language" value="japanese">
-            <label for="japanese">Japanese</label>
-            
-            <!-- Total Number of Pages -->
-            <label for="total_pages">Total Number of Pages:</label>
-            <input type="number" id="total_pages" name="total_pages" min="1">
-            
-            <!-- Title Input -->
-            <label for="title">Slide Title:</label>
-            <input type="text" id="title" name="title">
+
             
             <!-- Keywords and Paper Titles (your existing fields) -->
             <label>{{ form.keywords.label }}</label>
@@ -32,6 +18,29 @@
             <label>{{ form.paper_titles.label }}</label>
             <div>{{ form.paper_titles }}</div>
             
+
+    
+            <!-- Language Selection -->
+            <!-- <div>{{form.language}}</div> -->
+            <label>{{ form.language.label }}</label>
+            <div class="options">
+                <div class="option">
+                    <label for="english">English</label><input type="radio" id="english" name="language" value="english">
+                </div>
+                <div class="option">
+                    <label for="japanese">Japanese</label><input type="radio" id="japanese" name="language" value="japanese">
+                </div>
+            </div>
+            
+            
+            <!-- Total Number of Pages -->
+            <label>{{ form.total_pages.label }}</label>
+            <div>{{form.total_pages}}</div>
+            
+            <!-- Title Input -->
+            <label>{{ form.title.label }}</label>
+            <div>{{form.title}}</div>
+
             <div>{{ form.submit }}</div>
         </form>
     </div>
