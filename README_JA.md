@@ -4,7 +4,7 @@
 
 キーワードのリストまたは論文タイトルのリストから、シンプルな調査スライドを生成します:
 
-![](img3.png)
+![](img4.png)
 
 ## セットアップ
 1. このリポジトリをクローンしてください: `git clone https://github.com/Hiromasa-H/survey_gpt.git`

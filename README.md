@@ -4,7 +4,7 @@
 
 Generate simple survey slides from a list of keywords or a list of paper titles:
 
-![](img3.png)
+![](img4.png)
 
 ## Setup
 1. clone this repository: `git clone https://github.com/Hiromasa-H/survey_gpt.git`
