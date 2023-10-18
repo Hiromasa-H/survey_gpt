@@ -160,7 +160,7 @@ def make_pdf(title_text,subtitle_text,date_affiliation,midashi_list,honbun_list,
         # 図の表示
         # c.drawInlineImage(im_1_r,margin,margin)
         # c.drawInlineImage(im_2_r,w/2+margin,margin)
-        c.drawString(w-50, linky, str(page_number+10))
+        c.drawString(w-50, linky, str(page_number))
         
 
     c.save()  # ファイル保存
