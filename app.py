@@ -117,9 +117,9 @@ def static_file(filename):
     return send_from_directory('static/slides', filename)
 
 
-@app.route('/static/slides/download_pdf')
+@app.route('/download_pdf')
 def download_pdf():
-    pdf_file = 'presentation.pdf'  # Replace with the path to your PDF file
+    pdf_file = '/static/slides/presentation.pdf'  # Replace with the path to your PDF file
     return send_file(pdf_file, as_attachment=True)
 
 
@@ -167,7 +167,7 @@ def generate_summaries(result_list,language):
         text = f"title: {result.title}\nbody: {result.summary}"
 
         if language == 'japanese':
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 # model='gpt-4',
                 messages=[
@@ -176,7 +176,8 @@ def generate_summaries(result_list,language):
                 ],
                 temperature=0.25,
             )
-            summary = response['choices'][0]['message']['content']
+            # summary = response['choices'][0]['message']['content']
+            summary = response.choices[0].message.content
             # print("#### GPT", summary)
             gpt_dict = {}    
             for b in summary.split('\n'):
@@ -189,7 +190,7 @@ def generate_summaries(result_list,language):
                     gpt_dict['result'] = b[3:].lstrip()
             # print("Dict by ChatGPT", dict)
         elif language == 'english':
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 # model='gpt-4',
                 messages=[
@@ -198,7 +199,8 @@ def generate_summaries(result_list,language):
                 ],
                 temperature=0.25,
             )
-            summary = response['choices'][0]['message']['content']
+            # summary = response['choices'][0]['message']['content']
+            summary = response.choices[0].message.content
             # print("#### GPT", summary)
             gpt_dict = {}    
             for b in summary.split('\n'):
